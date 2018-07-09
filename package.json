@@ -1,5 +1,5 @@
 {
-  "name": "bittrex-js",
+  "name": "bittrex-api-js",
   "version": "1.0.0",
   "description": "Very simple Bittrex API wrapper for Node JS",
   "main": "index.js",
