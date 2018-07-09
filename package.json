@@ -1,0 +1,25 @@
+{
+  "name": "bittrex-js",
+  "version": "1.0.0",
+  "description": "Very simple Bittrex API wrapper for Node JS",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gafopi/bittrex-js.git"
+  },
+  "keywords": [
+    "bittrex",
+    "cryptocurrency",
+    "trading",
+    "arbitrage"
+  ],
+  "author": "GAFO TECH",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/gafopi/bittrex-js/issues"
+  },
+  "homepage": "https://github.com/gafopi/bittrex-js"
+}
