@@ -21,5 +21,11 @@
   "bugs": {
     "url": "https://github.com/gafopi/bittrex-js/issues"
   },
-  "homepage": "https://github.com/gafopi/bittrex-js"
+  "homepage": "https://github.com/gafopi/bittrex-js",
+  "dependencies": {
+    "jsonic": "^0.3.0",
+    "request": "^2.87.0",
+    "signalr-client": "0.0.17",
+    "zlib": "^1.0.5"
+  }
 }
