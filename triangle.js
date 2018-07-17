@@ -1,5 +1,7 @@
 
 const Bittrex = require('./index');
+const orders = require('./orders');
+const delay = require('delay');
 
 var key = 'a64fcb611d4a4fbc82c739d2a02f1256';
 var secret = '120d8c62e681470b9a7587d3217aa9c4';
@@ -16,7 +18,15 @@ function sortObject(obj) {
     return res;
 }
 
+
 var bittrex = new Bittrex(key,secret);
+
+
+
+var getBalance = async (currency) => {
+  return await bittrex.req('/account/getbalance', {currency});
+}
+
 
 setInterval(async () => {
   var summaries = await bittrex.req('/public/getmarketsummaries', {});
@@ -46,7 +56,7 @@ setInterval(async () => {
     var B = ethMarkets[market];
     var C = btcMarkets[market];
 
-    var routeNoFee = (1/A.Ask) * (1/B.Ask) * (C.Ask);
+    //var routeNoFee = (1/A.Ask) * (1/B.Ask) * (C.Ask);
     var routeWithFee = ((1/A.Ask)*.9975) * ((1/B.Ask)*.9975) * (C.Bid*.9975);
     ethResults[market] = (routeWithFee-1.0)*100.0;
   }
@@ -59,7 +69,7 @@ setInterval(async () => {
     var B = usdtMarkets[market];
     var C = btcMarkets[market];
 
-    var routeNoFee = (A.Ask) * (1/B.Ask) * (C.Ask);
+    //var routeNoFee = (A.Ask) * (1/B.Ask) * (C.Ask);
     var routeWithFee = ((A.Ask)*.9975) * ((1/B.Ask)*.9975) * (C.Bid*.9975);
     usdtResults[market] = (routeWithFee-1.0)*100.0;
   }
@@ -73,20 +83,74 @@ setInterval(async () => {
   for (var t of trimmed) {
     var other = t[0];
     var route = t[1];
-    if (route > 0.1) {
-      console.log(`[${new Date().toLocaleString()}] BTC -> ETH -> ${other} -> BTC\t${route}`);
+    if (route > 0.55) {
+      // Opportunity found!
+      console.log(`\n\n[${new Date().toLocaleString()}] BTC -> ETH -> ${other} -> BTC\t${route}`);
+      // In this case we are skipping the BTC -> ETH exchange and holding ETH instead
+      // so we make two trades:
+      // A: Buy X with ETH
+      // B: Sell X for BTC
+
+      var A = btcMarkets['ETH'];
+      var B = ethMarkets[other];
+      var C = btcMarkets[other];
+
+      var ethAmount = .05;
+      var otherAmount = (ethAmount / B.Ask).toFixed(5);
+
+
+      console.log(`Order #0: BTC-ETH`);
+      console.log(`@ ${A.Ask} BTC / ETH`);
+      console.log(`Order #1: ETH-${other}`);
+      console.log(`@ ${B.Ask} ETH / ${other}`);
+      console.log(`Order #2: BTC-${other}`);
+      console.log(`@ ${C.Bid} BTC / ${other}`);
+
+      console.log(`\nMAKING TRADES:`);
+
+      console.log(`Trying to buy ${otherAmount} ${other} for ${ethAmount} ETH @ ${B.Ask}`);
+
+      try {
+        var order = await orders.buyLimit(`ETH-${other}`, parseFloat(otherAmount), parseFloat(B.Ask));
+        console.log(order);
+        order = order.result;
+      } catch (err) {
+        console.log(err.message);
+        console.log(`Error making ETH-${other} trade`);
+        process.exit();
+      }
+
+      await delay(50);
+
+      var orderResult = await bittrex.req('/account/getorder', {uuid: order.OrderId});
+      console.log(`order result:`, orderResult);
+
+      var filled = orderResult.Quantity - orderResult.QuantityRemaining;
+
+      if (filled > 0) {
+        console.log(await orders.sellLimit(`BTC-${other}`, filled, parseFloat(C.Bid)));
+      }
+
+      else {
+        console.log(`First order did not fill...`);
+      }
+
+      break;
+
+
+
     }
   }
 
-  var trimmed = sortObject(usdtResults).slice(0,10);
-  for (var t of trimmed) {
-    var other = t[0];
-    var route = t[1];
-    if (route > 0.1) {
-      console.log(`[${new Date().toLocaleString()}] BTC -> USDT -> ${other} -> BTC\t${route}`);
+  //var trimmed = sortObject(usdtResults).slice(0,10);
+  //for (var t of trimmed) {
+  //  var other = t[0];
+  //  var route = t[1];
+  //  if (route > 0.1) {
+  //    console.log(`[${new Date().toLocaleString()}] BTC -> USDT -> ${other} -> BTC\t${route}`);
 
-    }
-  }
+  //  }
+  //}
 
 
 
@@ -97,6 +161,6 @@ setInterval(async () => {
   //console.log(sortObject(usdtResults).slice(0,10));
 
 
-}, 2000);
+}, 800);
 
-console.log(`[${new Date().toLocaleString()}] started`)
+console.log(`[${new Date().toLocaleString()}] started`);
