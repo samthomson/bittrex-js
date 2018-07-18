@@ -1,0 +1,76 @@
+[2018-7-17 22:48:32] started
+[2018-7-17 23:00:46] BTC -> ETH -> CVC -> BTC	0.17829193042879776
+[2018-7-17 23:00:46] BTC -> ETH -> CVC -> BTC	0.17829193042879776
+[2018-7-17 23:09:07] BTC -> ETH -> NGC -> BTC	0.5173245038643914
+
+MAKING TRADES:
+Order #0: BTC-ETH
+@ 0.06844989 BTC / ETH
+Order #1: ETH-NGC
+@ 0.00070684 ETH / NGC
+Order #2: BTC-NGC
+@ 0.000049 BTC / NGC
+
+Trying to buy 70.73736631 NGC for 0.05 ETH @ 0.00070684
+LIMIT BUY: {
+  "MarketName": "ETH-NGC",
+  "OrderType": "LIMIT",
+  "Quantity": 70.73736631,
+  "Rate": 0.00070684,
+  "TimeInEffect": "IMMEDIATE_OR_CANCEL",log
+  "ConditionType": "NONE",
+  "Target": 0
+}
+skipping
+{ success: true,
+  message: '',
+  result:
+   { OrderId: '155b4efc-c7ef-49c1-a639-400a847b51da',
+     MarketName: 'ETH-NGC',
+     MarketCurrency: 'NGC',
+     BuyOrSell: 'Buy',
+     OrderType: 'LIMIT',
+     Quantity: 70.73736631,
+     Rate: 0.00070684 } }
+order result: { AccountId: null,
+  OrderUuid: '155b4efc-c7ef-49c1-a639-400a847b51da',
+  Exchange: 'ETH-NGC',
+  Type: 'LIMIT_BUY',
+  Quantity: 70.73736631,
+  QuantityRemaining: 0,
+  Limit: 0.00070684,
+  Reserved: 0.05,
+  ReserveRemaining: 0.05,
+  CommissionReserved: 0.000125,
+  CommissionReserveRemaining: 0,
+  CommissionPaid: 0.000125,
+  Price: 0.05,
+  PricePerUnit: 0.00070683,
+  Opened: '2018-07-18T03:09:07.58',
+  Closed: '2018-07-18T03:09:07.687',
+  IsOpen: false,
+  Sentinel: '70908747-2fcc-4854-b7b6-f6f84575c6ca',
+  CancelInitiated: false,
+  ImmediateOrCancel: true,
+  IsConditional: false,
+  Condition: 'NONE',
+  ConditionTarget: null }
+LIMIT SELL: {
+  "MarketName": "BTC-NGC",
+  "OrderType": "LIMIT",
+  "Quantity": 70.73736631,
+  "Rate": 0.000049,
+  "TimeInEffect": "GOOD_TIL_CANCELLED",
+  "ConditionType": "NONE",
+  "Target": 0
+}
+{ success: true,
+  message: '',
+  result:
+   { OrderId: '6de0d839-d544-4cd1-8097-d67d2418610e',
+     MarketName: 'BTC-NGC',
+     MarketCurrency: 'NGC',
+     BuyOrSell: 'Sell',
+     OrderType: 'LIMIT',
+     Quantity: 70.73736631,
+     Rate: 0.000049 } }

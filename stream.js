@@ -73,3 +73,9 @@ class Stream extends EventEmitter {
 }
 
 module.exports = Stream;
+
+var stream = new Stream('BTC-WAX');
+stream.start();
+stream.on('message', m => {
+  console.log(JSON.stringify(m, null, 2));
+})
