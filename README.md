@@ -8,7 +8,7 @@ Information for the API can be found [here](https://support.bittrex.com/hc/en-us
 ## Installation
 
 ```bash
-npm install bittrex-js
+npm install bittrex-api-js
 ```
 
 ## Usage
