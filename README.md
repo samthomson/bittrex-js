@@ -13,13 +13,13 @@ npm install bittrex-js
 
 ## Usage
 
-Usage of [bittrex-js](#) is very simple. There is only one method after initialization:
+Usage of [bittrex-api-js](#) is very simple. There is only one method after initialization:
 `req`.
 
 To make an API call, just call the `req` method with the endpoint and data object as parameters.
 
 ```javascript
-var Bittrex = require('bittrex-js');
+var Bittrex = require('bittrex-api-js');
 
 (async () => {
   var b = new Bittrex('apiKey', 'apiSecret');
